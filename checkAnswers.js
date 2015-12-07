@@ -5,7 +5,8 @@ const answers = [
     [ 138, 1771 ],
     [ 1598415, 3812909 ],
     [ 2592, 2360 ],
-    [ 254575, 1038736 ]
+    [ 254575, 1038736 ],
+    [ 238, 69 ]
 ];
 
 export default function checkAnswers (dayNumber, result) {

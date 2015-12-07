@@ -8,7 +8,7 @@ var argv = require('minimist')(process.argv.slice(2));
 
 var checkAnswers = require('./checkAnswers').default;
 
-const days = 4;
+const days = 5;
 
 function run(dayNumber) {
     const dayPath = './day' + dayNumber;
@@ -19,11 +19,12 @@ function run(dayNumber) {
     console.log("==============");
 
     const result = day(input);
-    checkAnswers(dayNumber, result);
 
     console.log('Part 1: ' + result[0]);
     console.log('Part 2: ' + result[1]);
     console.log("");
+
+    checkAnswers(dayNumber, result);
 }
 
 function runAll () {
