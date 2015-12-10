@@ -1,11 +1,9 @@
 import _ from 'lodash';
 import assert from 'assert';
 
-
-const parseLine = (wires) => (text) => {
-    const [left, right] = text.split(" -> ");
-    wires[right] = left.split(" ");
-};
+function isNumber(value) {
+    return !isNaN(value);
+}
 
 const operations = {
     'AND': (a, b) => a & b,
@@ -14,41 +12,57 @@ const operations = {
     'RSHIFT': (a, b) => a >> b
 }
 
-function isNumber(value) {
-    const num = parseInt(value, 10);
-    return !_.isArray(value) && !_.isNaN(num);
-}
+function buildWires (input) {
+    const lines = input.split("\n");
+    let wires = {};
 
-function resolve (wires) {
-    const resolveValue =  _.memoize((value, key) => {
-        if (isNumber(key)) {
-            return parseInt(key, 10);
-        }
-        if (value.length === 1 && isNumber(value[0])) {
-            return parseInt(value[0], 10);
-        }
-
-        let result = null;
-        switch (value.length) {
-            case 1:
-                return resolveValue(wires[value[0]], key);
-            case 2:
-                return resolveValue(wires[value[1]], value[1]) ^ 65535;
-            case 3:
-                return operations[value[1]](resolveValue(wires[value[0]], value[0]), resolveValue(wires[value[2]], value[2]));
-        }
+    lines.forEach((text) => {
+        const [left, right] = text.split(" -> ");
+        wires[right] = isNumber(left) ? parseInt(left, 10) : left;
     });
 
-    return resolveValue(wires['a'], 'a');
+    return wires;
 }
 
 export default function day7 (input) {
-    const lines = input.split("\n");
 
-    let wires = {}
-    lines.forEach(parseLine(wires));
-    resolve(wires);
-    console.log(resolve(wires));
+    var wires = buildWires(input);
 
-    return [ null, null ];
+
+    const solve = (value) => {
+        if (isNumber(value)) {
+            return parseInt(value, 10);
+        } else if (isNumber(wires[value])) {
+            return parseInt(wires[value], 10);
+        }
+
+        const tokens = wires[value].split(" ");
+        let a, b, result, func;
+        switch (tokens.length) {
+            case 1:
+                wires[value] = solve(tokens[0]);
+                break;
+            case 2:
+                a = solve(tokens[1]);
+                wires[value] = Math.pow(2, 16) - 1 - a;
+                break;
+            case 3:
+                a = solve(tokens[0]);
+                b = solve(tokens[2]);
+                func = operations[tokens[1]];
+                result = func(a, b);
+                wires[value] = result;
+                break;
+        }
+        return wires[value];
+    };
+
+    const part1 = solve('a');
+
+    wires = buildWires(input);
+    wires['b'] = part1;
+
+    const part2 = solve('a');
+
+    return [ part1, part2 ];
 }
