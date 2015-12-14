@@ -8,7 +8,7 @@ var argv = require('minimist')(process.argv.slice(2));
 
 var checkAnswers = require('./checkAnswers').default;
 
-const days = 5;
+const days = 10;
 
 function run(dayNumber) {
     const dayPath = './day' + dayNumber;

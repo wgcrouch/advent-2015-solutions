@@ -10,9 +10,12 @@ const answers = [
     [ 543903, 14687245 ],
     [ 46065, 14134 ],
     [ 1371, 2117],
-    [ null, null],
-    [ 252594, 3579328]
+    [ 207, 804],
+    [ 252594, 3579328],
+    [ 'hxbxxyzz', 'hxcaabcc' ],
+    [ 119433, 68466 ]
 ];
+
 
 export default function checkAnswers (dayNumber, result) {
     const dayAnswers = answers[dayNumber - 1];
