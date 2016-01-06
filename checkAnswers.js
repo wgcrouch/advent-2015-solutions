@@ -13,9 +13,13 @@ const answers = [
     [ 207, 804],
     [ 252594, 3579328],
     [ 'hxbxxyzz', 'hxcaabcc' ],
-    [ 119433, 68466 ]
-];
+    [ 119433, 68466 ],
+    [ 733, 725 ],
+    [ 2655, 1059 ],
+    [ null, null ],
+    [ 213, 323 ],
 
+];
 
 export default function checkAnswers (dayNumber, result) {
     const dayAnswers = answers[dayNumber - 1];
